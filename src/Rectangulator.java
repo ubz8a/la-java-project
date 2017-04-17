@@ -1,0 +1,16 @@
+public class Rectangulator {
+
+
+	public static void main(String[]args)
+	{
+              
+		int length = Integer.parseInt(args[0]);
+		int width = Integer.parseInt(args[1]);
+
+		Rectangle myRectangle = new Rectangle(length, width);
+		String output = String.format("*** Your RECTANGLE ***\n\nLength: %d\nWidth: %d\nArea: %d\nPerimeter: %d\nn", 
+							myRectangle.length, myRectangle.width, myRectangle.getArea(),myrectangle.getPerimeter()) ; 
+		System.out.println(output);
+
+	}
+}
