@@ -13,7 +13,7 @@
 
 
   <path id="class.path">
-    <pathelement location="./lib/*.jar" />
+    <pathelement location="./lib/junit4.jar" />
     <pathelement location="${build.dir}" />
   </path>
 
