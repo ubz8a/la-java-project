@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project name="Rectangle-Build" default="main" basedir=".">
+  <property environment="env"/>
+
+  <!-- Sets variables which can later be used. -->
+  <!-- The value of the property is accessed via $(...} -->
+  <!-- where ... is replaced by the property name -->
+
+  <property name="src.dir" location="src" />
+  <property name="build.dir" location="bin" />
+  <property name="dist.dir" location="dist" />
+  <property name="docs.dir" location="docs" />
+
+
+  <path id="class.path">
+    <pathelement location="./bin" />
+  </path>
+
+  <!-- delete existing build artefacts -->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${docs.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <!-- create new build artefact directories -->
+  <target name="makedir">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${docs.dir}" />
+    <mkdir dir="${dist.dir}" />
+  </target>
+
+  <!-- compile -->
+  <target name="compile" depends="clean, makedir">
+    <javac srcdir="${src.dir}" destdir="${build.dir}">
+      <classpath refid="class.path" />
+    </javac>
+  </target>
+
+  <!-- Create deployable jar -->
+  <target name="jar" depends="compile">
+    <jar destfile="${dist.dir}\rectangle.jar" basedir="${build.dir}">
+      <manifest>
+	<attribute name="Main-Class" value="Rectangulator" />
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- entry point to make jar executable -->
+  <target name="main" depends="compile, jar">
+	<description>Main target</description>
+  </target>
+
+</project>
+
+
