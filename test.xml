@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Rectangle-Build" default="main" basedir=".">
+<project name="Rectangle-Test" default="main" basedir=".">
   <property environment="env"/>
 
   <!-- Sets variables which can later be used. -->
@@ -9,46 +9,45 @@
   <property name="src.dir" location="src" />
   <property name="build.dir" location="bin" />
   <property name="dist.dir" location="dist" />
-  <property name="docs.dir" location="docs" />
+  <property name="report.dir" location="reports" />
 
 
   <path id="class.path">
-    <pathelement location="./lib/junit4.jar" />
-    <pathelement location="${build.dir}" />
-  </path>
+    <pathelement location="./lib/junit-4.jar" />
+    <pathelement location="${build.dir}"/> 
+ </path>
 
   <!-- delete existing build artefacts -->
   <target name="clean">
     <delete dir="${build.dir}" />
-    <delete dir="${docs.dir}" />
-    <delete dir="${dist.dir}" />
+    <delete dir="${report.dir}" />
   </target>
 
   <!-- create new build artefact directories -->
-  <target name="makedir">
+  <target name="makedir" depends="clean">
     <mkdir dir="${build.dir}" />
-    <mkdir dir="${docs.dir}" />
-    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${report.dir}" />
   </target>
 
   <!-- compile -->
-  <target name="compile" depends="clean, makedir">
+  <target name="compile" depends="makedir">
     <javac srcdir="${src.dir}" destdir="${build.dir}">
       <classpath refid="class.path" />
     </javac>
   </target>
 
-  <!-- Create deployable jar -->
-  <target name="jar" depends="compile">
-    <jar destfile="${dist.dir}\rectangle.jar" basedir="${build.dir}">
-      <manifest>
-	<attribute name="Main-Class" value="Rectangulator" />
-      </manifest>
-    </jar>
+  <!-- Create reference to test class to execute -->
+  <target name="test" depends="compile">
+    <junit printsummary="yes" fork="true">
+      <classpath refid="class.path"/>
+      <test name="RectangleTest" todir="${report.dir}" outfile="result">
+	<formatter type="xml"/>
+      </test>
+    </junit>
   </target>
 
-  <!-- entry point to make jar executable -->
-  <target name="main" depends="compile, jar">
+  <!-- entry point to make executable -->
+  <target name="main" depends="test">
 	<description>Main target</description>
   </target>
 
