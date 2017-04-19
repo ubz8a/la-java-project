@@ -5,18 +5,6 @@ pipeline {
   stages {
 
 
-    stage ('unit-test') {
-
-      agent {
-	label 'Apache'
-      }
-
-      steps {
-        sh 'ant -f test.xml -v'
-        junit 'reports/result.xml'
-      }
-    }
-
     stage ('build') {
 
       agent {
