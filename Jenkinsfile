@@ -1,14 +1,15 @@
 pipeline {
 
-  agent {
-
-    label 'master'
-  }
+  agent none
 
   stages {
 
 
     stage ('unit-test') {
+
+      agent {
+	label 'apache'
+      }
 
       steps {
         sh 'ant -f test.xml -v'
@@ -18,17 +19,38 @@ pipeline {
 
     stage ('build') {
 
+      sgent {
+        label 'apache'
+      }
+
       steps {
         sh 'ant -f build.xml -v'
       }
     }
 
     stage ('deploy') {
- 
+
+      agent {
+        label 'Apache'
+      }
+
       steps {
 
-        sh "cp dist/rectangle_${env.BUID_NUMBER}.jar /var/www/html/rectangles/all/"
+        sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/"
  
+      }
+    }
+
+    stage ('Running on CentOS') {
+
+      agent {
+        label 'CentOS'
+      }
+     
+      steps {
+
+	sh "wget http://ubz8a1.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+	sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
       }
     }
 
