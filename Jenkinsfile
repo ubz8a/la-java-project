@@ -8,7 +8,7 @@ pipeline {
     stage ('unit-test') {
 
       agent {
-	label 'apache'
+	label 'Apache'
       }
 
       steps {
@@ -20,11 +20,20 @@ pipeline {
     stage ('build') {
 
       agent {
-        label 'apache'
+        label 'Apache'
       }
 
       steps {
         sh 'ant -f build.xml -v'
+      }
+
+      post {
+
+        success {
+
+      	  archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+
+        }
       }
     }
 
@@ -53,20 +62,6 @@ pipeline {
 	sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
       }
     }
-
   }
-
-
-
-  post {
-
-    always {
-
-      archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
-
-    }
-
-  }
-
-
 }
+
