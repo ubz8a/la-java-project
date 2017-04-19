@@ -27,7 +27,7 @@ pipeline {
  
       steps {
 
-        sh "cp dist/rectangle_${env.BUID_NUMBER}.jar" /vr.www/html/rectangles/all/"
+        sh "cp dist/rectangle_${env.BUID_NUMBER}.jar /var/www/html/rectangles/all/"
  
       }
     }
