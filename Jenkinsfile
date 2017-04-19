@@ -19,7 +19,7 @@ pipeline {
 
     stage ('build') {
 
-      sgent {
+      agent {
         label 'apache'
       }
 
