@@ -109,6 +109,32 @@ pipeline {
 	sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
 
       }
+
+      post {
+
+        success {
+
+          emailext (
+            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Promoted to Master!",
+          body: "<h1>${env.JOB_NAME} [${env.BUILD_NUMBER}] Promoted to Master!<h1><p>Check output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>",
+        to: "dozydave@hotmail.com"
+        }
+      }
+    }
+
+
+    }
+
+    post {
+
+      failure {
+
+	emailext (
+	  subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
+	  body: "<h1>${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!<h1><p>Check output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>",
+	to: "dozydave@hotmail.com"
+	}
+      }
     }
   }
 }
