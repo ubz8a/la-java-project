@@ -9,6 +9,16 @@ pipeline {
 
   stages {
 
+    stage ('say hello') {
+
+      agent any
+
+      steps {
+
+	sayHello 'Awesome'
+
+      }
+    }
 
     stage ('build') {
 
